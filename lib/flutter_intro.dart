@@ -36,8 +36,11 @@ class Intro extends InheritedWidget {
   /// [Widget] [borderRadius] of the selected area, the default is [BorderRadius.all(Radius.circular(4))]
   final BorderRadiusGeometry borderRadius;
 
+  /// The initial mask color of step page
+  final Color initialMaskColor;
+
   /// The mask color of step page
-  final Color maskColor;
+  Color maskColor = Colors.transparent;
 
   /// No animation
   final bool noAnimation;
@@ -53,12 +56,13 @@ class Intro extends InheritedWidget {
   Intro({
     this.padding = const EdgeInsets.all(8),
     this.borderRadius = const BorderRadius.all(Radius.circular(4)),
-    this.maskColor = const Color.fromRGBO(0, 0, 0, .6),
+    this.initialMaskColor = const Color.fromRGBO(0, 0, 0, .6),
     this.noAnimation = false,
     this.maskClosable = false,
     this.buttonTextBuilder,
     required Widget child,
   }) : super(child: child) {
+    this.maskColor = this.initialMaskColor;
     _animationDuration =
         noAnimation ? Duration(milliseconds: 0) : Duration(milliseconds: 300);
   }
@@ -165,11 +169,17 @@ class Intro extends InheritedWidget {
       _finishedIntroStepBuilderList.clear();
     });
   }
+  
+  void hideOverlay() {
+    _overlayWidget = SizedBox.shrink();
+    maskColor = Colors.transparent;
+  }
 
   void render({
     bool isUpdate = false,
     bool reverse = false,
   }) {
+    maskColor = initialMaskColor;
     IntroStepBuilder? introStepBuilder = reverse
         ? _getPrevIntroStepBuilder(
             isUpdate: isUpdate,
