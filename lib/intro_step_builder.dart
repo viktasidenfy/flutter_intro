@@ -27,6 +27,9 @@ class IntroStepBuilder extends StatefulWidget {
 
   /// When widget loaded (means the key is add to context)
   final VoidCallback? onWidgetLoad;
+  
+  /// Should action button be visible
+  final bool areButtonsVisible;
 
   IntroStepBuilder({
     Key? key,
@@ -37,6 +40,7 @@ class IntroStepBuilder extends StatefulWidget {
     this.borderRadius,
     this.onHighlightWidgetTap,
     this.padding,
+    this.areButtonsVisible = true,
     this.onWidgetLoad,
   })  : assert(text != null || overlayBuilder != null),
         super(key: key);
