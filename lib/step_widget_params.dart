@@ -23,10 +23,14 @@ class StepWidgetParams {
 
   /// The step order
   final int order;
+  
+  /// Should action button be visible
+  final bool areButtonsVisible;
 
   StepWidgetParams({
     this.onPrev,
     this.onNext,
+    this.areButtonsVisible = true,
     required this.order,
     required this.onFinish,
     required this.screenSize,
