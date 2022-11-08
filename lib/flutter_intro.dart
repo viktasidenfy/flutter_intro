@@ -137,8 +137,9 @@ class Intro extends InheritedWidget {
     );
     return AnimatedPositioned(
       duration: _animationDuration,
-      child: GestureDetector(
+      child: InkWell(
         onTap: onTap,
+        onHover: (hover) {},
         child: AnimatedContainer(
           padding: padding,
           decoration: decoration,
