@@ -166,7 +166,7 @@ class Intro extends InheritedWidget {
     });
   }
 
-  void _render({
+  void render({
     bool isUpdate = false,
     bool reverse = false,
   }) {
@@ -228,10 +228,10 @@ class Intro extends InheritedWidget {
               child: introStepBuilder.overlayBuilder!(
                 StepWidgetParams(
                   order: introStepBuilder.order,
-                  onNext: hasNextStep ? _render : null,
+                  onNext: hasNextStep ? render : null,
                   onPrev: hasPrevStep
                       ? () {
-                          _render(reverse: true);
+                          render(reverse: true);
                         }
                       : null,
                   onFinish: _onFinish,
@@ -276,7 +276,7 @@ class Intro extends InheritedWidget {
                     text: buttonTextBuilder == null
                         ? 'Next'
                         : buttonTextBuilder!(introStepBuilder.order),
-                    onPressed: _render,
+                    onPressed: render,
                   ),
                 ],
               ),
@@ -307,7 +307,7 @@ class Intro extends InheritedWidget {
           _screenSize = currentScreenSize;
 
           _th.throttle(() {
-            _render(
+            render(
               isUpdate: true,
             );
           });
@@ -373,11 +373,11 @@ class Intro extends InheritedWidget {
 
   void start() {
     dispose();
-    _render();
+    render();
   }
 
   void refresh() {
-    _render(
+    render(
       isUpdate: true,
     );
   }
