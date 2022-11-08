@@ -228,6 +228,7 @@ class Intro extends InheritedWidget {
               child: introStepBuilder.overlayBuilder!(
                 StepWidgetParams(
                   order: introStepBuilder.order,
+                  areButtonsVisible: introStepBuilder.areButtonsVisible,
                   onNext: hasNextStep ? render : null,
                   onPrev: hasPrevStep
                       ? () {
