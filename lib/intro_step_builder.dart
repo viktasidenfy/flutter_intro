@@ -30,6 +30,9 @@ class IntroStepBuilder extends StatefulWidget {
   
   /// Should action button be visible
   final bool areButtonsVisible;
+  
+  /// Navigation callback before building next step
+  final VoidCallback? navigationBeforeNextStep;
 
   IntroStepBuilder({
     Key? key,
@@ -41,6 +44,7 @@ class IntroStepBuilder extends StatefulWidget {
     this.onHighlightWidgetTap,
     this.padding,
     this.areButtonsVisible = true,
+    this.navigationBeforeNextStep,
     this.onWidgetLoad,
   })  : assert(text != null || overlayBuilder != null),
         super(key: key);
