@@ -26,11 +26,15 @@ class StepWidgetParams {
   
   /// Should action button be visible
   final bool areButtonsVisible;
+  
+  /// Navigation callback before building next step
+  final VoidCallback? navigationBeforeNextStep;
 
   StepWidgetParams({
     this.onPrev,
     this.onNext,
     this.areButtonsVisible = true,
+    this.navigationBeforeNextStep,
     required this.order,
     required this.onFinish,
     required this.screenSize,
