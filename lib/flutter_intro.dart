@@ -339,7 +339,7 @@ class Intro extends InheritedWidget {
                                 Future.delayed(
                                   const Duration(milliseconds: 200),
                                   () {
-                                    _render();
+                                    render();
                                   },
                                 );
                               }
