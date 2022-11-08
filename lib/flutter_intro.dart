@@ -229,6 +229,7 @@ class Intro extends InheritedWidget {
                 StepWidgetParams(
                   order: introStepBuilder.order,
                   areButtonsVisible: introStepBuilder.areButtonsVisible,
+                  navigationBeforeNextStep: introStepBuilder.navigationBeforeNextStep,
                   onNext: hasNextStep ? render : null,
                   onPrev: hasPrevStep
                       ? () {
