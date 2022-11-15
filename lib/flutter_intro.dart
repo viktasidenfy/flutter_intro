@@ -21,6 +21,8 @@ class Intro extends InheritedWidget {
   static bool _removed = false;
   static Size _screenSize = Size(0, 0);
   static Widget _overlayWidget = SizedBox.shrink();
+  bool didRelocate = false;
+  static int lastStepInteger = 0;
   static IntroStepBuilder? _currentIntroStepBuilder;
   static Size _widgetSize = Size(0, 0);
   static Offset _widgetOffset = Offset(0, 0);
@@ -70,7 +72,7 @@ class Intro extends InheritedWidget {
   IntroStatus get status => IntroStatus(isOpen: _overlayEntry != null);
 
   bool get hasNextStep =>
-      _currentIntroStepBuilder == null ||
+      _currentIntroStepBuilder == null || lastStepInteger == 10 ||
       _introStepBuilderList.where(
             (element) {
               return element.order > _currentIntroStepBuilder!.order;
@@ -85,22 +87,27 @@ class Intro extends InheritedWidget {
 
   IntroStepBuilder? _getNextIntroStepBuilder({
     bool isUpdate = false,
+    bool shouldCount = true
   }) {
     if (isUpdate) {
       return _currentIntroStepBuilder;
     }
-    int index = _finishedIntroStepBuilderList
-        .indexWhere((element) => element == _currentIntroStepBuilder);
-    if (index != _finishedIntroStepBuilderList.length - 1) {
-      return _finishedIntroStepBuilderList[index + 1];
-    } else {
-      _introStepBuilderList.sort((a, b) => a.order - b.order);
-      final introStepBuilder =
-          _introStepBuilderList.cast<IntroStepBuilder?>().firstWhere(
-                (e) => !_finishedIntroStepBuilderList.contains(e),
-                orElse: () => null,
-              );
+    if (shouldCount) {
+      Intro.lastStepInteger += 1;
+    }
+    var current = Intro.lastStepInteger;
+    if (_introStepBuilderList.cast<IntroStepBuilder?>().any((element) => element?.order == current)) {
+      var introStepBuilder = _introStepBuilderList.cast<IntroStepBuilder?>()
+          .firstWhere((element) => element?.order == current);
       return introStepBuilder;
+    } else if (_introStepBuilderList.cast<IntroStepBuilder?>().any((element) => element?.order == current + 1)) {
+      Intro.lastStepInteger += 1;
+      current = Intro.lastStepInteger;
+      var introStepBuilder = _introStepBuilderList.cast<IntroStepBuilder?>()
+          .firstWhere((element) => element?.order == current);
+      return introStepBuilder;
+    } else {
+      return _currentIntroStepBuilder;
     }
   }
 
@@ -171,7 +178,8 @@ class Intro extends InheritedWidget {
     });
   }
   
-  void hideOverlay() {
+  void hideOverlay({bool didRelocate = false}) {
+    this.didRelocate = didRelocate;
     _overlayWidget = SizedBox.shrink();
     maskColor = Colors.transparent;
   }
@@ -179,6 +187,7 @@ class Intro extends InheritedWidget {
   void render({
     bool isUpdate = false,
     bool reverse = false,
+    bool shouldCount = true
   }) {
     maskColor = initialMaskColor;
     IntroStepBuilder? introStepBuilder = reverse
@@ -186,10 +195,9 @@ class Intro extends InheritedWidget {
             isUpdate: isUpdate,
           )
         : _getNextIntroStepBuilder(
-            isUpdate: isUpdate,
+            isUpdate: isUpdate, shouldCount: shouldCount
           );
     _currentIntroStepBuilder = introStepBuilder;
-
     if (introStepBuilder == null) {
       _onFinish();
       return;
@@ -314,17 +322,6 @@ class Intro extends InheritedWidget {
     _overlayEntry = new OverlayEntry(
       builder: (BuildContext context) {
         Size currentScreenSize = MediaQuery.of(context).size;
-
-        if (_screenSize.width != currentScreenSize.width ||
-            _screenSize.height != currentScreenSize.height) {
-          _screenSize = currentScreenSize;
-
-          _th.throttle(() {
-            render(
-              isUpdate: true,
-            );
-          });
-        }
 
         return _DelayRenderedWidget(
           removed: _removed,
