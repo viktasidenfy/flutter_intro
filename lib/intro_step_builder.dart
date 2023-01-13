@@ -70,12 +70,20 @@ class _IntroStepBuilderState extends State<IntroStepBuilder> {
         flutterIntro.didRelocate = false;
         flutterIntro._introStepBuilderList.clear();
       }
-      if (!flutterIntro._introStepBuilderList.contains(widget) && !flutterIntro._introStepBuilderList.any((element) => element.order == widget.order)) {
-        flutterIntro._introStepBuilderList.add(widget);
-        if (widget.onWidgetLoad != null) {
-          widget.onWidgetLoad!();
-        }
+      
+      if (flutterIntro._introStepBuilderList.contains(widget)) {
+        flutterIntro._introStepBuilderList.remove(widget);
       }
+
+      if (flutterIntro._introStepBuilderList.any((element) => element.order == widget.order)) {
+        flutterIntro._introStepBuilderList.removeWhere((element) => element.order == widget.order);
+      }
+
+      flutterIntro._introStepBuilderList.add(widget);
+      if (widget.onWidgetLoad != null) {
+        widget.onWidgetLoad!();
+      }
+      
     });
   }
 
