@@ -331,7 +331,7 @@ class Intro extends InheritedWidget {
           removed: _removed,
           childPersist: true,
           duration: _animationDuration,
-          child: Visibility(visible: isVisible, Material(
+          child: Visibility(visible: isVisible, child: Material(
             color: Colors.transparent,
             child: Stack(
               children: [
