@@ -43,6 +43,9 @@ class Intro extends InheritedWidget {
 
   /// The mask color of step page
   Color maskColor = Colors.transparent;
+  
+  /// Is overlay visble
+  bool isVisible = true;
 
   /// No animation
   final bool noAnimation;
@@ -181,7 +184,7 @@ class Intro extends InheritedWidget {
   void hideOverlay({bool didRelocate = false}) {
     this.didRelocate = didRelocate;
     _overlayWidget = SizedBox.shrink();
-    maskColor = Colors.transparent;
+    isVisible = false;
   }
 
   void render({
@@ -190,6 +193,7 @@ class Intro extends InheritedWidget {
     bool shouldCount = true
   }) {
     maskColor = initialMaskColor;
+    isVisible = true;
     IntroStepBuilder? introStepBuilder = reverse
         ? _getPrevIntroStepBuilder(
             isUpdate: isUpdate,
@@ -327,7 +331,7 @@ class Intro extends InheritedWidget {
           removed: _removed,
           childPersist: true,
           duration: _animationDuration,
-          child: Material(
+          child: Visibility(visible: isVisible, Material(
             color: Colors.transparent,
             child: Stack(
               children: [
@@ -374,7 +378,7 @@ class Intro extends InheritedWidget {
                 ),
               ],
             ),
-          ),
+          ),),
         );
       },
     );
