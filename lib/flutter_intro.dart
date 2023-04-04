@@ -210,11 +210,8 @@ class Intro extends InheritedWidget {
     BuildContext? currentContext = introStepBuilder._key.currentContext;
 
     if (currentContext == null) {
-      throw FlutterIntroException(
-        'The current context is null, because there is no widget in the tree that matches this global key.'
-        ' Please check whether the key in IntroStepBuilder(order: ${introStepBuilder.order}) has forgotten to bind.'
-        ' If you are already bound, it means you have encountered a bug, please let me know.',
-      );
+      print("Intro context is null");
+      return;
     }
 
     RenderBox renderBox = currentContext.findRenderObject() as RenderBox;
