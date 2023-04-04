@@ -331,7 +331,9 @@ class Intro extends InheritedWidget {
           removed: _removed,
           childPersist: true,
           duration: _animationDuration,
-          child: Visibility(visible: isVisible, child: Material(
+          child: !isVisible ? Container(width: double.maxFinite,
+              height: double.maxFinite,
+              color: maskColor) : Material(
             color: Colors.transparent,
             child: Stack(
               children: [
@@ -378,7 +380,7 @@ class Intro extends InheritedWidget {
                 ),
               ],
             ),
-          ),),
+          ),
         );
       },
     );
