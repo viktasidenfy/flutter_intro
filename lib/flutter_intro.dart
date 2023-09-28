@@ -178,6 +178,9 @@ class Intro extends InheritedWidget {
       _overlayEntry = null;
       _introStepBuilderList.clear();
       _finishedIntroStepBuilderList.clear();
+      _currentIntroStepBuilder = null;
+      lastStepInteger = 0;
+      didRelocate = false;
     });
   }
   
@@ -210,6 +213,7 @@ class Intro extends InheritedWidget {
     BuildContext? currentContext = introStepBuilder._key.currentContext;
 
     if (currentContext == null) {
+      _onFinish();
       print("Intro context is null");
       return;
     }
